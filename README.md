@@ -5,7 +5,7 @@ No secrets are included—configuration happens via environment files.
 
 ---
 
-## ✔️ clone-pi.sh
+## 🟢 clone-pi.sh
 
 Automates disk cloning on a Raspberry Pi using `rpi-clone`, with Discord webhook integration for notifications and UUID patching.
 
@@ -33,9 +33,9 @@ sudo ./clone-pi.sh --force      # proceed with cloning to matched device
 
 ---
 
-## ⚠️ automated-rpi-clone.sh
+## 🔴 automated-rpi-clone.sh
 
-> **Status: COMPLETELY UNTESTED** – use at your own risk. Script logic is sound but hasn't been verified AT ALL.
+> ⚠️ **Status: COMPLETELY UNTESTED** – use at your own risk. Script logic is sound but hasn't been verified AT ALL.
 
 Minimalistic one-shot clone utility. Does not rely on serial matching or Discord integration. Assumes a specified disk and standard Raspberry Pi layout.
 
