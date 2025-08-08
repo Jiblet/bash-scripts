@@ -118,6 +118,7 @@ Monitors kernel and service restart requirements using `needrestart` and sends D
 ### Usage
 ```bash
 sudo ./needrestart-check.sh
+```
 
 ---
 
