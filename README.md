@@ -99,3 +99,43 @@ A reusable Bash script to send rich Discord webhook notifications for job status
 ```
 
 ---
+
+## 🔔 needrestart-check.sh
+
+Monitors kernel and service restart requirements using `needrestart` and sends Discord notifications accordingly.
+
+### Features
+- Detects if a kernel reboot is required after updates
+- If no kernel reboot is needed, checks for services that require restarting
+- Sends rich warning notifications to Discord via `notify-discord.sh`
+- Provides detailed info on current vs expected kernel versions in notifications
+
+### Requirements
+- `needrestart` installed and runnable with sudo
+- `notify-discord.sh` available and configured for Discord webhook notifications
+- `sudo` privileges to run `needrestart` commands
+
+### Usage
+```bash
+sudo ./needrestart-check.sh
+
+---
+
+## 📦 apt-refresh-with-notification.sh
+
+Runs an APT package list update and sends Discord notifications about update status.
+
+### Features
+- Performs `apt update` and checks for upgradable packages
+- Sends Discord notifications on success, warning (upgrades available), or failure
+- Runs as root but switches to the `jiblet` user for Discord notification commands
+- Minimal output, designed for automated systemd or cron jobs
+
+### Requirements
+- `apt` package manager available
+- `notify-discord.sh` configured and accessible by user `jiblet`
+- Run as root or with sufficient privileges to execute `apt update`
+
+### Usage
+```bash
+sudo ./apt-refresh-with-notification.sh
