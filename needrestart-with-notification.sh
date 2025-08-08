@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uo pipefail
 
 # Run needrestart kernel check with batch mode and list-only
 readarray -t lines < <(sudo needrestart -k -b -r l)
