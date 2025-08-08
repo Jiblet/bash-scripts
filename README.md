@@ -58,3 +58,44 @@ sudo ./automated-rpi-clone.sh sda
 
 ---
 
+## 📣 notify_discord.sh
+
+A reusable Bash script to send rich Discord webhook notifications for job status updates.
+
+### Features
+- Supports multiple named webhooks configured via secrets or environment variables.
+- Sends embedded messages with status: `success`, `failed`, or `warning`.
+- Includes a `test` mode to send sample notifications for easy validation.
+- Logs notification attempts and errors to systemd journal (`notify_discord` tag).
+- Automatically detects secrets file from multiple standard locations.
+
+### Requirements
+- `jq` installed (used to build JSON payloads)
+- `curl` installed (to send HTTP POST requests)
+- Secrets file defining Discord webhook URLs, e.g.:
+  ```bash
+  export DISCORD_WEBHOOK_UPDATES="https://discord.com/api/webhooks/..."
+  export DISCORD_WEBHOOK_CLONE="https://discord.com/api/webhooks/..."
+  # ...and so on
+  ```
+
+### Usage
+
+```bash
+# Send a success notification to the 'updates' webhook
+./notify_discord.sh updates success "Daily Apt Update" "No updates available"
+
+# Send a failure notification to the 'clone' webhook
+./notify_discord.sh clone failed "Backup Clone Job" "Disk not found"
+
+# Send a warning notification to any webhook
+./notify_discord.sh updates warning "Memory Usage" "Memory above threshold"
+
+# Run the built-in test sequence (sends success, warning, failed test notifications)
+./notify_discord.sh test
+
+# or equivalently:
+./notify_discord.sh --test
+```
+
+---
