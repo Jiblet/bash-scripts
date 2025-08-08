@@ -1,6 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
+# ==============================================================================
+# Require root privileges
+# ==============================================================================
+if [[ "$EUID" -ne 0 ]]; then
+    echo "❌ This script must be run as root. Try: sudo $0 $*"
+    exit 1
+fi
+
 # Start the clock
 START_TIME=$(date +%s)
 
@@ -187,11 +195,12 @@ done
 # --- Run the clone ---
 notify success "Clone" "🚀 Starting clone to /dev/$DISK"
 if ! rpi-clone -f "$DISK" -U; then
-    notify failed "Clone" "🔥 Clone failed"
-    log "❌ Clone failed"
+    notify failed "Clone" "🔥 Clone failed - did you remember to sudo?"
+    log "🔥 Clone failed - did you remember to sudo?"
     exit 1
 fi
 notify success "Clone" "📀 Clone complete"
+log "📀 Clone complete"   
 
 sleep 2
 mkdir -p "$MOUNTPOINT"
