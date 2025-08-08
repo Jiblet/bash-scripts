@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # Run needrestart kernel check with batch mode and list-only
-readarray -t lines < <(sudo needrestart -k -b -r l)
+readarray -t lines < <(sudo needrestart -k -b -r r)
 
 FLAGFILE="/run/needrestart-reboot-needed"
 
