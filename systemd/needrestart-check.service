@@ -1,0 +1,14 @@
+[Unit]
+Description=Check for services that need a restart
+After=apt-daily-upgrade.service
+Requires=apt-daily-upgrade.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/needrestart-with-notification.sh
+User=root
+Group=root
+
+[Install]
+WantedBy=timers.target
+

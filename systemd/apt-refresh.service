@@ -1,0 +1,12 @@
+[Unit]
+Description=APT Package List Refresh and Discord Notification
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/apt-refresh-with-notification.sh
+
+User=root
+Group=root
+
+[Install]
+WantedBy=timers.target

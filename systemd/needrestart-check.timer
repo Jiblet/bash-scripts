@@ -1,0 +1,13 @@
+[Unit]
+Description=Run needrestart after daily upgrades
+After=apt-daily-upgrade.timer
+Requires=apt-daily-upgrade.timer
+
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+Unit=needrestart-check.service
+
+[Install]
+WantedBy=timers.target

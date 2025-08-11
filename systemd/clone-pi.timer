@@ -1,0 +1,10 @@
+[Unit]
+Description=Clone Pi Sunday, Wednesday, Friday 2AM with jitter
+
+[Timer]
+OnCalendar=Sun,Wed,Fri 01:00:00
+RandomizedDelaySec=60m
+
+[Install]
+WantedBy=timers.target
+

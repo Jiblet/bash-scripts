@@ -1,0 +1,11 @@
+[Unit]
+Description=Run apt update with a random hourly delay
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=1h
+RandomizedDelaySec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

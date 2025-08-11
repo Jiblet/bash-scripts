@@ -1,0 +1,6 @@
+[Unit]
+Description=Run clone-pi.sh
+
+[Service]
+Type=oneshot
+ExecStart=/home/jiblet/bin/clone-pi.sh --force
