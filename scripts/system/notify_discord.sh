@@ -67,6 +67,7 @@ declare -A WEBHOOKS=(
     [borgmatic]="${DISCORD_WEBHOOK_BORGMATIC:-}"
     [vaultwarden_backup]="${DISCORD_WEBHOOK_VAULTWARDEN_BACKUP:-}"
     [test]="${DISCORD_WEBHOOK_TEST:-}"
+    [server_watcher]="${DISCORD_WEBHOOK_SERVER_WATCHER:-}"
 )
 
 for key in "${!WEBHOOKS[@]}"; do
