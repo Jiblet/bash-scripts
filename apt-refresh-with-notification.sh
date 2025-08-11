@@ -28,6 +28,7 @@ if [ "$UPDATES_COUNT" -gt 0 ]; then
     MESSAGE="Found the following upgradable packages:\n\n$UPGRADABLE_PACKAGES"
     sudo -u jiblet /usr/local/bin/notify-discord.sh updates warning "APT Updates Available" "$MESSAGE"
 else
-    MESSAGE="No new packages found."
-    sudo -u jiblet /usr/local/bin/notify-discord.sh updates success "APT Updates" "$MESSAGE"
+    ## No longer any need to message when no new packages are found
+    # MESSAGE="No new packages found."
+    # sudo -u jiblet /usr/local/bin/notify-discord.sh updates success "APT Updates" "$MESSAGE"
 fi
