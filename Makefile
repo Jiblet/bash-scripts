@@ -5,8 +5,11 @@ SYSTEMD_UNIT_DIR := systemd
 
 # Define the scripts that need systemd units.
 SYSTEMD_MANAGED_SCRIPTS := apt-refresh-with-notification.sh needrestart-check.sh clone-pi.sh
-USER_SCRIPTS := $(patsubst %,$(USER_SCRIPT_DIR)/%, automated-rpi-clone.sh discord_startup.sh)
+USER_SCRIPTS := $(patsubst %,$(USER_SCRIPT_DIR)/%, discord_startup.sh)
 SYSTEM_SCRIPTS := $(patsubst %,$(SYSTEM_SCRIPT_DIR)/%, $(filter-out $(SYSTEMD_MANAGED_SCRIPTS), $(notdir $(wildcard $(SYSTEM_SCRIPT_DIR)/*.sh))))
+
+# Use a separate variable for experimental scripts.
+EXPERIMENTAL_SCRIPTS := $(USER_SCRIPT_DIR)/automated-rpi-clone.sh
 
 # Use a separate variable for services that don't have an associated timer.
 ADDITIONAL_SERVICES := $(patsubst %,$(SYSTEMD_UNIT_DIR)/%, discord-startup.service)
@@ -24,9 +27,9 @@ SYSTEMD_TARGET_DIR := /etc/systemd/system
 ALL_SERVICES := $(SYSTEMD_SERVICES) $(ADDITIONAL_SERVICES)
 ALL_TIMERS := $(SYSTEMD_TIMERS)
 
-.PHONY: all install uninstall clean
+.PHONY: all install uninstall clean install-experimental uninstall-experimental
 
-# The main 'install' target handles all installations.
+# The main 'install' target handles all standard installations.
 install: install-system-scripts install-user-scripts install-systemd
 
 install-system-scripts:
@@ -40,6 +43,12 @@ install-user-scripts:
 	install -m 755 $(USER_SCRIPTS) $(USER_BIN_DIR)
 	echo "User scripts installation finished."
 
+install-experimental:
+	echo "Installing experimental scripts to $(USER_BIN_DIR)..."
+	mkdir -p $(USER_BIN_DIR)
+	install -m 755 $(EXPERIMENTAL_SCRIPTS) $(USER_BIN_DIR)
+	echo "Experimental scripts installation finished."
+
 install-systemd:
 	echo "Installing systemd units to $(SYSTEMD_TARGET_DIR)..."
 	sudo install -m 644 $(ALL_SERVICES) $(ALL_TIMERS) $(SYSTEMD_TARGET_DIR)
@@ -50,7 +59,7 @@ install-systemd:
 	$(foreach unit, $(notdir $(ALL_SERVICES) $(ALL_TIMERS)), sudo systemctl enable --now $(unit);)
 	echo "Systemd installation finished."
 
-uninstall: uninstall-systemd uninstall-user-scripts uninstall-system-scripts
+uninstall: uninstall-systemd uninstall-user-scripts uninstall-system-scripts uninstall-experimental
 
 uninstall-systemd:
 	echo "Stopping and disabling timers and services..."
@@ -68,5 +77,10 @@ uninstall-system-scripts:
 	echo "Removing system scripts from $(BIN_DIR)..."
 	sudo rm -f $(addprefix $(BIN_DIR)/,$(notdir $(SYSTEM_SCRIPTS)))
 	echo "System scripts uninstallation finished."
+
+uninstall-experimental:
+	echo "Removing experimental scripts from $(USER_BIN_DIR)..."
+	rm -f $(addprefix $(USER_BIN_DIR)/,$(notdir $(EXPERIMENTAL_SCRIPTS)))
+	echo "Experimental scripts uninstallation finished."
 
 clean: uninstall
