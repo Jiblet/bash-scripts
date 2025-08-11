@@ -20,22 +20,19 @@ Automates disk cloning on a Raspberry Pi using `rpi-clone`, with Discord webhook
 - `rpi-clone` installed
 - `sudo` access (rpi-clone needs it)
 - Secrets file at `/home/jiblet/secrets.sh` containing:
-  ```bash
   export CLONE_PI_DISCORD_WEBHOOK="your-webhook-url"
-  ```
+
   So you'll want to switch that for your homedir, because I'm quite lazy and it runs as root.
 
 ### Usage
-```bash
 sudo ./clone-pi.sh --dry-run    # scan and validate disk without cloning
 sudo ./clone-pi.sh --force      # proceed with cloning to matched device
-```
 
 ---
 
 ## 🔴 automated-rpi-clone.sh
 
-> ⚠️ **Status: COMPLETELY UNTESTED** – use at your own risk. Script logic is sound but hasn't been verified AT ALL.
+⚠️ **Status: COMPLETELY UNTESTED** – use at your own risk. Script logic is sound but hasn't been verified AT ALL.
 
 Minimalistic one-shot clone utility. Does not rely on serial matching or Discord integration. Assumes a specified disk and standard Raspberry Pi layout.
 
@@ -47,9 +44,7 @@ Minimalistic one-shot clone utility. Does not rely on serial matching or Discord
 - Automatically updates `fstab` and `cmdline.txt` with correct PARTUUIDs
 
 ### Usage
-```bash
 sudo ./automated-rpi-clone.sh sda
-```
 
 ### Assumptions
 - `/mnt/clone` is used for post-clone mounting
@@ -73,15 +68,12 @@ A reusable Bash script to send rich Discord webhook notifications for job status
 - `jq` installed (used to build JSON payloads)
 - `curl` installed (to send HTTP POST requests)
 - Secrets file defining Discord webhook URLs, e.g.:
-  ```bash
   export DISCORD_WEBHOOK_UPDATES="https://discord.com/api/webhooks/..."
   export DISCORD_WEBHOOK_CLONE="https://discord.com/api/webhooks/..."
   # ...and so on
-  ```
 
 ### Usage
 
-```bash
 # Send a success notification to the 'updates' webhook
 ./notify_discord.sh updates success "Daily Apt Update" "No updates available"
 
@@ -96,7 +88,6 @@ A reusable Bash script to send rich Discord webhook notifications for job status
 
 # or equivalently:
 ./notify_discord.sh --test
-```
 
 ---
 
@@ -116,9 +107,7 @@ Monitors kernel and service restart requirements using `needrestart` and sends D
 - `sudo` privileges to run `needrestart` commands
 
 ### Usage
-```bash
 sudo ./needrestart-check.sh
-```
 
 ---
 
@@ -138,5 +127,4 @@ Runs an APT package list update and sends Discord notifications about update sta
 - Run as root or with sufficient privileges to execute `apt update`
 
 ### Usage
-```bash
 sudo ./apt-refresh-with-notification.sh
