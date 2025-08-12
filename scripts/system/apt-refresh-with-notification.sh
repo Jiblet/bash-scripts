@@ -25,7 +25,7 @@ echo "$UPDATES_COUNT" > "$CACHE_FILE"
 
 # Prepare and send Discord notification accordingly
 if [ "$UPDATES_COUNT" -gt 0 ]; then
-    MESSAGE="Found the following upgradable packages:\n\n$UPGRADABLE_PACKAGES"
+    MESSAGE=$(printf "Found the following upgradable packages:\n\n%s" "$UPGRADABLE_PACKAGES")
     sudo -u jiblet /usr/local/bin/notify-discord.sh updates warning "APT Updates Available" "$MESSAGE"
 else
      MESSAGE="No new packages found."
