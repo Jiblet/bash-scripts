@@ -1,12 +1,12 @@
 [Unit]
-Description=Send Discord webhook on Raspberry Pi boot
+Description=Send Discord webhook on system boot
 After=network-online.target tailscaled.service time-sync.target
 Wants=network-online.target tailscaled.service time-sync.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/jiblet/bin/discord_startup.sh
-User=jiblet
+User=%i
+ExecStart=/home/%i/bin/discord_startup.sh
 Environment=PATH=/usr/bin:/bin:/usr/local/bin
 
 [Install]

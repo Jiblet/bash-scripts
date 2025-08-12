@@ -29,6 +29,8 @@ DETAILS="🟢 ${HOSTNAME} is back online!
 
 🌐 Local IP: ${IP_ADDR}
 🛡️ Tailscale IP: ${TS_IP}"
-#⏰ Timestamp: ${TIMESTAMP} ## removed for now but saving here in case
+#⏰ Timestamp: ${TIMESTAMP}
 
 /usr/local/bin/notify-discord.sh server_watcher success "Startup Notification" "$DETAILS"
+
+
