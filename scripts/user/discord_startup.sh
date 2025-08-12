@@ -1,6 +1,5 @@
 #!/bin/bash
-
-WEBHOOK_URL="https://discord.com/api/webhooks/1392882142391832606/jfRHHLZ2PaquIPi-xe30In_PmjH3Ph3lMFazsO5lS1_AktNTBkN4OGBqSPfaTXpzY-PN"
+set -euo pipefail
 
 HOSTNAME=$(hostname)
 IP_ADDR=$(hostname -I | awk '{print $1}')
@@ -19,19 +18,17 @@ if [[ -z "$TS_IP" ]]; then
   TS_IP="(Tailscale not connected)"
 fi
 
-# JSON with description field for newlines
-read -r -d '' JSON_PAYLOAD <<EOF
-{
-  "username": "Server Watcher",
-  "embeds": [{
-    "title": "🟢 ${HOSTNAME} is back online!",
-    "description": "⏰ **Timestamp**\n${TIMESTAMP}\n\n🌐 **Local IP**\n${IP_ADDR}\n\n🛡️ **Tailscale IP**\n${TS_IP}",
-    "color": 65280
- }]
-}
-EOF
+OS_INFO=$(lsb_release -ds 2>/dev/null || grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"')
 
-curl -H "Content-Type: application/json" \
-     -X POST \
-     -d "$JSON_PAYLOAD" \
-     "$WEBHOOK_URL"
+KERNEL_VERSION=$(uname -r)
+
+DETAILS="🟢 ${HOSTNAME} is back online!
+
+🐧 OS: ${OS_INFO}
+🌽 Kernel: ${KERNEL_VERSION}
+
+🌐 Local IP: ${IP_ADDR}
+🛡️ Tailscale IP: ${TS_IP}"
+#⏰ Timestamp: ${TIMESTAMP} ## removed for now but saving here in case
+
+/usr/local/bin/notify-discord.sh server_watcher success "Startup Notification" "$DETAILS"
